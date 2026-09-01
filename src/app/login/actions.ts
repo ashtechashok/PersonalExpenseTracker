@@ -8,7 +8,7 @@ import {
   verifyPassword,
   hashPassword,
   SESSION_COOKIE,
-  SESSION_MAX_AGE_SECONDS,
+  SESSION_MAX_AGE_REMEMBERED_SECONDS,
 } from "@/lib/auth";
 import {
   DEFAULT_EXPENSE_CATEGORIES,
@@ -26,6 +26,7 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
     .toLowerCase();
   const password = String(formData.get("password") || "");
   const next = String(formData.get("next") || "/dashboard");
+  const rememberMe = formData.get("remember") === "on";
 
   if (!email || !password) {
     return { error: "Enter your email and password." };
@@ -42,13 +43,16 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
     return { error: "Your account request was declined. Contact the site admin." };
   }
 
-  const token = await createSessionToken(user.id);
+  const token = await createSessionToken(user.id, rememberMe);
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: SESSION_MAX_AGE_SECONDS,
+    // Only set a maxAge when "remember me" is checked — otherwise this is a
+    // browser-session cookie (no maxAge/expires at all), so it's gone once
+    // the browser fully closes rather than lingering for a fixed cap.
+    ...(rememberMe ? { maxAge: SESSION_MAX_AGE_REMEMBERED_SECONDS } : {}),
     path: "/",
   });
 

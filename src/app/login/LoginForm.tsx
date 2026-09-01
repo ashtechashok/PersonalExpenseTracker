@@ -58,6 +58,16 @@ export default function LoginForm({ next }: { next?: string }) {
         />
       </div>
 
+      <label className="flex items-center gap-2 text-sm text-secondary">
+        <input
+          type="checkbox"
+          name="remember"
+          defaultChecked
+          className="h-4 w-4 rounded border-default bg-surface-2 accent-indigo-500"
+        />
+        Remember me
+      </label>
+
       {state.error && (
         <div className="flex items-center gap-2 rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
           <AlertCircleIcon className="h-4 w-4 shrink-0" />

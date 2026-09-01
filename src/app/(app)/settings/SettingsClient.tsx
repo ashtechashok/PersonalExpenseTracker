@@ -6,8 +6,9 @@ import CategoriesSection, { type ClientCategory } from "./CategoriesSection";
 import MediumsSection, { type ClientMedium, type ClientAccount } from "./MediumsSection";
 import AccountRolesSection, { type ClientAccountRole } from "./AccountRolesSection";
 import AppearanceSection from "./AppearanceSection";
+import PasswordSection from "./PasswordSection";
 
-type Tab = "locale" | "categories" | "mediums" | "roles" | "appearance";
+type Tab = "locale" | "categories" | "mediums" | "roles" | "appearance" | "password";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "locale", label: "Locale" },
@@ -15,6 +16,7 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "mediums", label: "Mediums" },
   { key: "roles", label: "Account Roles" },
   { key: "appearance", label: "Appearance" },
+  { key: "password", label: "Password" },
 ];
 
 export default function SettingsClient({
@@ -67,6 +69,7 @@ export default function SettingsClient({
       {tab === "mediums" && <MediumsSection mediums={mediums} accounts={accounts} />}
       {tab === "roles" && <AccountRolesSection roles={accountRoles} />}
       {tab === "appearance" && <AppearanceSection />}
+      {tab === "password" && <PasswordSection />}
     </div>
   );
 }
