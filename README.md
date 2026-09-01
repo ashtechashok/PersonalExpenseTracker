@@ -3,8 +3,10 @@
 A personal expense/income tracker with account balance tracking, built with Next.js (App Router), PostgreSQL, and Prisma.
 
 Free and open-source (MIT — see [LICENSE](./LICENSE)) — deploy your own copy, modify it, whatever you like. If it's
-useful to you, this project is pay-what-you-want: send whatever you think it's worth via UPI to `ashoksmavd@ptyes`.
-Entirely optional, no obligation either way.
+useful to you, this project is pay-what-you-want: scan the QR below or send whatever you think it's worth via UPI to
+`ashoksmavd@ptyes`. Entirely optional, no obligation either way.
+
+<img src="./paytmqr.jpg" alt="UPI QR code — ashoksmavd@ptyes" width="220" />
 
 ## Features
 
