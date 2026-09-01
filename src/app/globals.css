@@ -188,6 +188,22 @@ body {
   border-radius: 6px;
 }
 
+/* Every button and link shows a pointer cursor — browsers already do this
+   for <a href>, but not for <button> (defaults to a plain arrow), so it's
+   easy to end up with a mix across a large app. Disabled buttons are the
+   one exception: not-allowed instead, since they aren't actually clickable. */
+button,
+a,
+[role="button"],
+[role="switch"],
+[role="tab"] {
+  cursor: pointer;
+}
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 /* ---------- Keyframes ---------- */
 @keyframes fade-in {
   from {
