@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens ---------- */
+:root {
+  --color-bg-base: #08090d;
+  --color-bg-surface: #101218;
+  --color-bg-surface-2: #171a23;
+  --color-bg-surface-3: #1e222d;
+  --color-bg-overlay: rgba(5, 6, 10, 0.72);
+
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+
+  --color-text-primary: #f3f4f7;
+  --color-text-secondary: #a3a9b8;
+  --color-text-tertiary: #6b7280;
+
+  --color-accent: #818cf8;
+  --color-accent-strong: #6366f1;
+
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px -12px rgba(0, 0, 0, 0.55);
+  --shadow-elevated: 0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 20px 48px -16px rgba(0, 0, 0, 0.65);
+
+  /* Neutral tint used for subtle hover/active fills and icon-badge backgrounds
+     (e.g. bg-[rgb(var(--tint-rgb)/0.06)]) — white on dark, ink on light, so
+     every one of those fills stays visible when the theme flips. */
+  --tint-rgb: 255, 255, 255;
+  --color-scrollbar-thumb: rgba(255, 255, 255, 0.14);
+  --color-scrollbar-thumb-hover: rgba(255, 255, 255, 0.22);
+
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+}
+
+/* Manually-selected light theme (default is the dark palette above).
+   Toggled via a `data-theme` attribute on <html>, set by ThemeToggle. */
+:root[data-theme="light"] {
+  --color-bg-base: #f6f7fa;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-2: #f0f1f5;
+  --color-bg-surface-3: #e4e6ed;
+  --color-bg-overlay: rgba(255, 255, 255, 0.72);
+
+  --color-border-subtle: rgba(15, 23, 42, 0.07);
+  --color-border-default: rgba(15, 23, 42, 0.12);
+  --color-border-strong: rgba(15, 23, 42, 0.2);
+
+  --color-text-primary: #14161f;
+  --color-text-secondary: #545a6b;
+  --color-text-tertiary: #82889a;
+
+  --color-accent: #4f46e5;
+  --color-accent-strong: #4338ca;
+
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.7) inset, 0 8px 24px -12px rgba(15, 23, 42, 0.14);
+  --shadow-elevated: 0 1px 0 0 rgba(255, 255, 255, 0.8) inset, 0 20px 44px -16px rgba(15, 23, 42, 0.18);
+
+  --tint-rgb: 15, 23, 42;
+  --color-scrollbar-thumb: rgba(15, 23, 42, 0.16);
+  --color-scrollbar-thumb-hover: rgba(15, 23, 42, 0.26);
+}
+
+@theme inline {
+  --color-base: var(--color-bg-base);
+  --color-surface: var(--color-bg-surface);
+  --color-surface-2: var(--color-bg-surface-2);
+  --color-surface-3: var(--color-bg-surface-3);
+  --color-overlay: var(--color-bg-overlay);
+
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-default: var(--color-border-default);
+  --color-border-strong: var(--color-border-strong);
+
+  --color-primary: var(--color-text-primary);
+  --color-secondary: var(--color-text-secondary);
+  --color-tertiary: var(--color-text-tertiary);
+
+  --color-accent: var(--color-accent);
+  --color-accent-strong: var(--color-accent-strong);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-elevated: var(--shadow-elevated);
+
+  --animate-fade-in: fade-in var(--duration-slow) var(--ease-standard);
+  --animate-slide-up: slide-up var(--duration-slow) var(--ease-standard);
+  --animate-scale-in: scale-in var(--duration-base) var(--ease-standard);
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+}
+
+/* Light-theme contrast fix: pale "-300" text tones (and a couple of
+   "-200"/"-400" ones) are tuned to sit on our dark surfaces and read as
+   nearly illegible on light ones — swap each for a darker shade of the same
+   hue whenever the light theme is active. Unlayered on purpose: Tailwind's
+   utilities live in `@layer utilities`, and unlayered rules always win over
+   layered ones regardless of source order or specificity, so this doesn't
+   need `!important` and can't be accidentally out-ordered by later utilities. */
+:root[data-theme="light"] .text-indigo-300 {
+  color: #4f46e5;
+}
+:root[data-theme="light"] .text-emerald-300 {
+  color: #059669;
+}
+:root[data-theme="light"] .text-rose-300 {
+  color: #e11d48;
+}
+:root[data-theme="light"] .text-rose-400 {
+  color: #be123c;
+}
+:root[data-theme="light"] .text-rose-200 {
+  color: #e11d48;
+}
+:root[data-theme="light"] .text-amber-300 {
+  color: #b45309;
+}
+:root[data-theme="light"] .text-teal-300 {
+  color: #0d9488;
+}
+:root[data-theme="light"] .text-violet-300 {
+  color: #7c3aed;
+}
+:root[data-theme="light"] .text-sky-300 {
+  color: #0284c7;
+}
+:root[data-theme="light"] .text-cyan-300 {
+  color: #0891b2;
+}
+:root[data-theme="light"] .hover\:text-indigo-300:hover {
+  color: #4f46e5;
+}
+:root[data-theme="light"] .hover\:text-rose-300:hover {
+  color: #e11d48;
+}
+:root[data-theme="light"] .hover\:text-rose-200:hover {
+  color: #e11d48;
+}
+
+/* ---------- Base ---------- */
+* {
+  border-color: var(--color-border-default);
+}
+
+html {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-feature-settings: "cv11", "ss01";
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 35%, transparent);
+  color: var(--color-text-primary);
+}
+
+/* Slim, unobtrusive scrollbars that fit either theme's surface */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar-thumb) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-thumb-hover);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Consistent focus ring across every interactive element, never removed */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ---------- Respect reduced motion everywhere ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
